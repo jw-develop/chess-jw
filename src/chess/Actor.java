@@ -5,6 +5,7 @@ import java.awt.Color;
 public class Actor {
 	
 	private Tile[][] board;
+	private Team turn = Team.WHITE;
 	
 	private Tile selectedTile = null;
 	private Color selTileColor;
@@ -20,14 +21,16 @@ public class Actor {
 		
 		//If promotion
 		if (Promote.getInstance().getPromoting())
-			if (i == 3 || i == 4 &&
-				j == 3 || j == 4)
+			if ((i == 3 || i == 4) &&
+				(j == 3 || j == 4))
 				Promote.getInstance().resolve(i,j);
 			else
 				return;
 		
 		//Select a piece
-		if (selectedTile == null && current.getPiece() != null) {
+		if (selectedTile == null && 
+				current.getPiece() != null &&
+				current.getPiece().color == turn) {
 			selectedTile = current;
 			selTileColor = selectedTile.getBackground();
 			selectedTile.setBackground(Color.blue);
@@ -46,6 +49,9 @@ public class Actor {
 				current.setPiece(selectedTile.getPiece());
 				selectedTile.setPiece(null);
 				
+				//Change current color to move.
+				nextTeam();
+				
 				//Promotion
 				Piece p = current.getPiece();
 					if (p.soldier == Soldier.PAWN)
@@ -58,6 +64,13 @@ public class Actor {
 			selectedTile.setBackground(selTileColor);
 			selectedTile = null;
 		}
+	}
+	
+	private void nextTeam() {
+		if (turn == Team.WHITE)
+			turn = Team.BLACK;
+		else
+			turn = Team.WHITE;
 	}
 	
 	private boolean canMove(Tile dest,int a,int b) {
@@ -91,16 +104,18 @@ public class Actor {
 		case WHITE:
 			if (x == a && board[b][a].getPiece() == null) {
 				if (y == 1)
-					return b == 2 || b == 3;
+					return b == 2
+						|| b == 3 && board[3][a].getPiece() == null;
 				return b - y == 1;
 			}
 			if (b - y == 1)
 				return Math.abs(a - x) == 1 &&
 						board[b][a].getPiece() != null;
 		case BLACK:
-			if (x == a) {
+			if (x == a && board[b][a].getPiece() == null) {
 				if (y == 6)
-					return b == 5 || b == 4;
+					return b == 5 
+						|| b == 4 && board[4][a].getPiece() == null;
 				return b - y == -1;
 			}
 			if (b - y == -1)

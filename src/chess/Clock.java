@@ -5,38 +5,35 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 @SuppressWarnings("serial")
 public class Clock extends JPanel {
 	
-	//MS from call.
-	private Long start;
-	
 	//In seconds
-	private Long total;
-	private Long current;
+	private int current;
 	
 	private JButton time;
 	
 	//Argument is given in minutes
-	public Clock(Long startingTime) {
+	public Clock(int startingTime) {
 		
 		current = startingTime*60;
-		total = current;
-		
-		start = java.lang.System.currentTimeMillis();
 		
         this.setPreferredSize(new Dimension(Board.dim/4,Board.dim));
+        setBackground(Color.DARK_GRAY);
         
-        this.setBackground(Color.GRAY);
+        time = new JButton(String.valueOf(current));
+        time.setSize(Board.dim/4-2,Board.dim/2);
+        time.setMaximumSize(getSize());
+
+        add(time);
         
-        time = new JButton(current.toString());
-	}
-	
-	public void tick() {
-		while (current > 0) {
-			current = total - (start - java.lang.System.currentTimeMillis());
-			time.setText(current.toString());
-		}
+        //The clock itself
+        int timerDelay = 1000;
+		new Timer(timerDelay ,e -> {
+		    time.setText(String.valueOf(current));
+		    current--;
+		}).start();
 	}
 }

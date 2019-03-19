@@ -14,7 +14,7 @@ public class PlayChess {
 	private static void style() {
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} 
+		}
 		catch (ClassNotFoundException | InstantiationException | 
 				IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
