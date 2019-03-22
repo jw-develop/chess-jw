@@ -3,12 +3,14 @@ package chess;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import display.DisplayFrame;
+
 public class PlayChess {
 	
 	public static void main(String[] args) {
 		style();
 		
-		javax.swing.SwingUtilities.invokeLater(() -> Board.build());
+		javax.swing.SwingUtilities.invokeLater(() -> DisplayFrame.build());
 	}
 	
 	private static void style() {

@@ -1,4 +1,4 @@
-package chess;
+package display;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,19 +9,20 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import chess.*;
+
 @SuppressWarnings("serial")
-public class Board extends JFrame {
+public class DisplayFrame extends JFrame {
 	
 	public static final int dim = 640;
-	private Tile[][] board = new Tile[8][8];
 	
-	private Board(String name) {
+	private DisplayFrame(String name) {
 		super(name);
         setResizable(false);
 	}
 
 	public static void build() {
-		Board board = new Board("Chess");
+		DisplayFrame board = new DisplayFrame("Chess");
 	    board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    //Add the chessboard.
@@ -40,25 +41,6 @@ public class Board extends JFrame {
 	    //Display
 	    board.pack();
 	    board.setVisible(true);
-	}
-	
-	private void fill() {
-		
-		//Pawns
-		for (int i = 0; i < 8;i++)
-			board[1][i].setPiece(new Piece(Team.WHITE,Soldier.PAWN));
-		for (int i = 0; i < 8;i++)
-			board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN));
-		
-		//Other pieces
-		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
-		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
-		for (int i = 0; i < 4; i++) {
-			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i]));
-			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i]));
-			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i]));
-			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i]));
-		}
 	}
 
 	public void addGrid(Container pane, String layout) {

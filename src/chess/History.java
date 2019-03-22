@@ -3,9 +3,6 @@ package chess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
@@ -13,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+
+import display.DisplayFrame;
 
 @SuppressWarnings("serial")
 public class History extends JPanel {
@@ -25,7 +23,7 @@ public class History extends JPanel {
 	         textArea, "History of Moves:\n");
 	
 	private History() {
-        this.setPreferredSize(new Dimension(Board.dim/4,Board.dim));
+        this.setPreferredSize(new Dimension(DisplayFrame.dim/4,DisplayFrame.dim));
         setBackground(Color.DARK_GRAY);
   
         setLayout(new BorderLayout());

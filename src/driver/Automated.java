@@ -1,4 +1,4 @@
-package chess;
+package driver;
 
 public class Automated extends Driver {
 
