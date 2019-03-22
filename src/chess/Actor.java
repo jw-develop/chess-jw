@@ -5,15 +5,19 @@ import java.awt.Color;
 public class Actor {
 	
 	private Tile[][] board;
-	private Team turn = Team.WHITE;
+	private Team turn;
 	
-	private Tile selectedTile = null;
+	private Tile selectedTile;
 	private Color selTileColor;
+	
+	//Selected tile coordinates.
 	private int x;
 	private int y;
 	
 	public Actor(Tile[][] board) {
 		this.board = board;
+		selectedTile = null;
+		turn = Team.WHITE;
 	}
 	
 	public void act(int i,int j) {
@@ -64,13 +68,6 @@ public class Actor {
 			selectedTile.setBackground(selTileColor);
 			selectedTile = null;
 		}
-	}
-	
-	private void nextTeam() {
-		if (turn == Team.WHITE)
-			turn = Team.BLACK;
-		else
-			turn = Team.WHITE;
 	}
 	
 	private boolean canMove(Tile dest,int a,int b) {
@@ -173,5 +170,12 @@ public class Actor {
 			return true;
 		}
 		return false;
+	}
+	
+	private void nextTeam() {
+		if (turn == Team.WHITE)
+			turn = Team.BLACK;
+		else
+			turn = Team.WHITE;
 	}
 }

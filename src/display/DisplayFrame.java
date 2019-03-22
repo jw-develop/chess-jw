@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import chess.*;
 
@@ -15,32 +17,33 @@ import chess.*;
 public class DisplayFrame extends JFrame {
 	
 	public static final int dim = 640;
+	private Chess chess;
+	private Tile[][] board;
 	
-	private DisplayFrame(String name) {
+	public DisplayFrame(String name,Chess chess) {
 		super(name);
-        setResizable(false);
+		this.board = chess.getBoard();
+		this.chess = chess;
 	}
 
-	public static void build() {
-		DisplayFrame board = new DisplayFrame("Chess");
-	    board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public void build() {
+		style();
+		
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    //Add the chessboard.
-	    board.addGrid(board.getContentPane(),BorderLayout.WEST);
+	    addGrid(getContentPane(),BorderLayout.WEST);
 	    
 	    //Add the clock
 	    Clock clock = new Clock(5);
-	    board.getContentPane().add(clock,BorderLayout.CENTER);
+	    getContentPane().add(clock,BorderLayout.CENTER);
 	    
 	    //Add the history panel.
-	    board.getContentPane().add(History.getInstance(),BorderLayout.EAST);
-	    
-	    //Place starting pieces - Update names
-	    board.fill();
+	    getContentPane().add(History.getInstance(),BorderLayout.EAST);
 	    
 	    //Display
-	    board.pack();
-	    board.setVisible(true);
+	    pack();
+	    setVisible(true);
 	}
 
 	public void addGrid(Container pane, String layout) {
@@ -50,21 +53,17 @@ public class DisplayFrame extends JFrame {
         
         //Set up component's preferred size
         grid.setPreferredSize(new Dimension(dim,dim));
-
-        //Board inside of Chess.
-        Actor chess = new Actor(board);
         
         //Add buttons
         for (int i = 0; i < 8; i++)
         	for (int j = 0; j < 8; j++) {
-        		Tile t = new Tile();
-        		board[i][j] = t;
+        		Tile t = board[i][j];
         		final int x = i;
         		final int y = j;
         		
         		//Execution of the pieces.
         		t.addActionListener(e -> {
-        			chess.act(x,y);
+        			chess.getActor().act(x,y);
         		});
         		
         		//Color the board.
@@ -82,5 +81,15 @@ public class DisplayFrame extends JFrame {
         		grid.add(t);
         	}
         pane.add(grid,layout);
+	}
+	
+	private void style() {
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		}
+		catch (ClassNotFoundException | InstantiationException | 
+				IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 	}
 }

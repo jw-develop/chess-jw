@@ -1,10 +1,33 @@
 package chess;
 
+import driver.Driver;
+
 public class Chess {
 
-	private Tile[][] board = new Tile[8][8];
+	private Tile[][] board;
+	private Actor actor;
+	@SuppressWarnings("unused")
+	private Driver bDriver;
+	@SuppressWarnings("unused")
+	private boolean over;
 	
-	private void fill() {
+	public Chess() {
+		genNormalBoard();
+		actor = new Actor(board);
+		bDriver = new Driver(board,Team.BLACK);
+		over = false;
+	}
+	
+	public void play() {
+		
+	}
+	
+	private void genNormalBoard() {
+		board = new Tile[8][8];
+		
+		for (int i = 0; i < 8; i++)
+        	for (int j = 0; j < 8; j++)
+        		 board[i][j] = new Tile();
 		
 		//Pawns
 		for (int i = 0; i < 8;i++)
@@ -21,5 +44,13 @@ public class Chess {
 			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i]));
 			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i]));
 		}
+	}
+
+	public Tile[][] getBoard() {
+		return board;
+	}
+	
+	public Actor getActor() {
+		return actor;
 	}
 }

@@ -1,4 +1,4 @@
-package chess;
+package display;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import display.DisplayFrame;
 
 @SuppressWarnings("serial")
 public class Clock extends JPanel {
