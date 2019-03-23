@@ -3,11 +3,13 @@ package driver;
 import chess.*;
 import static chess.Soldier.*;
 
+import java.util.ArrayList;
+
 public class Driver {
 	
 	Tile[][] board;
 	Team color;
-	
+	ArrayList<Mover> pieces;
 	
 	Soldier[] priority = {
 			QUEEN,ROOK,BISHOP,HORSE,PAWN,KING
@@ -15,14 +17,32 @@ public class Driver {
 	
 	public Driver(Tile[][] board,Team color) {
 		this.board = board;
-		this.color = color;
-		collectPieces();
+		
+		
+		this.color = Team.BLACK;
+		
+		
+		pieces = collectMovers();
 	}
 	
-	private void collectPieces() {
+	public Move makeMove() {
+		Move highestBounty = null;
+		for (Mover mover : pieces)
+			for (Move m : mover.getMoves(board))
+				if (highestBounty == null || highestBounty.bounty < m.bounty)
+					highestBounty = m;
+		return highestBounty;
+	}
+	
+	private ArrayList<Mover> collectMovers() {
+		ArrayList<Mover> toReturn = new ArrayList<>(16);
 		for (int i = 0; i < 8; i++)
         	for (int j = 0; j < 8; j++) {
-        		
+        		Piece p = board[i][j].getPiece();
+        		if (p != null && p.color == color)
+        			toReturn.add(new Mover(i,j,
+        					board[i][j].getPiece().soldier));
         	}
+		return toReturn;
 	}
 }

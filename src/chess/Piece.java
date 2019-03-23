@@ -10,7 +10,7 @@ public class Piece {
 		this.soldier = soldier;
 	}
 	
-	public int value() {
+	public int bounty() {
 		switch (this.soldier) {
 			case PAWN: return 1;
 			case HORSE: return 2;

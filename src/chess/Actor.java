@@ -2,6 +2,8 @@ package chess;
 
 import java.awt.Color;
 
+import driver.Move;
+
 public class Actor {
 	
 	private Tile[][] board;
@@ -20,8 +22,17 @@ public class Actor {
 		turn = Team.WHITE;
 	}
 	
+	private void select(int i, int j) {
+		selectedTile = board[i][j];
+		selTileColor = selectedTile.getBackground();
+		selectedTile.setBackground(Color.blue);
+		x = i;
+		y = j;
+	}
+	
 	public void act(int i,int j) {
 		Tile current = board[i][j];
+		boolean moved = false;
 		
 		//If promotion
 		if (Promote.getInstance().getPromoting())
@@ -34,16 +45,11 @@ public class Actor {
 		//Select a piece
 		if (selectedTile == null && 
 				current.getPiece() != null &&
-				current.getPiece().color == turn) {
-			selectedTile = current;
-			selTileColor = selectedTile.getBackground();
-			selectedTile.setBackground(Color.blue);
-			x = i;
-			y = j;
+				current.getPiece().color == turn)
+			select(i,j);
 			
 			//Print coord.
 			//System.out.printf("%d %d\n",x,y);
-		}
 		
 		//Attempt to move a piece
 		else if (selectedTile != null) {
@@ -54,7 +60,7 @@ public class Actor {
 				selectedTile.setPiece(null);
 				
 				//Change current color to move.
-				nextTeam();
+				moved = true;
 				
 				//Promotion
 				Piece p = current.getPiece();
@@ -67,6 +73,8 @@ public class Actor {
 			//No matter what, reset the selected tile square.
 			selectedTile.setBackground(selTileColor);
 			selectedTile = null;
+			if (moved)
+				nextTeam();
 		}
 	}
 	
@@ -173,9 +181,18 @@ public class Actor {
 	}
 	
 	private void nextTeam() {
-		if (turn == Team.WHITE)
+		if (turn == Team.WHITE) {
 			turn = Team.BLACK;
+			System.out.println("MOTION!");
+			Move m = Chess.bDriver.makeMove();
+			if (m != null) {
+				select(m.atX,m.atY);
+				act(m.toX,m.toY);
+			}
+		}
 		else
 			turn = Team.WHITE;
 	}
+	
+	public Team getTurn() {return turn;}
 }

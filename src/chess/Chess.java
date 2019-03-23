@@ -7,7 +7,7 @@ public class Chess {
 	private Tile[][] board;
 	private Actor actor;
 	@SuppressWarnings("unused")
-	private Driver bDriver;
+	public static Driver bDriver;
 	@SuppressWarnings("unused")
 	private boolean over;
 	
@@ -19,7 +19,7 @@ public class Chess {
 	}
 	
 	public void play() {
-		
+
 	}
 	
 	private void genNormalBoard() {
@@ -30,10 +30,10 @@ public class Chess {
         		 board[i][j] = new Tile();
 		
 		//Pawns
-		for (int i = 0; i < 8;i++)
-			board[1][i].setPiece(new Piece(Team.WHITE,Soldier.PAWN));
-		for (int i = 0; i < 8;i++)
-			board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN));
+		//for (int i = 0; i < 8;i++)
+		//	board[1][i].setPiece(new Piece(Team.WHITE,Soldier.PAWN));
+		//for (int i = 0; i < 8;i++)
+		//	board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN));
 		
 		//Other pieces
 		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
