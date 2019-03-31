@@ -2,7 +2,7 @@ package chess;
 
 import display.DisplayFrame;
 
-public class PlayChess {
+public class RunChess {
 	
 	public static void main(String[] args) {
 		Chess chess = new Chess();

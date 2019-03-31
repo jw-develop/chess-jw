@@ -186,6 +186,8 @@ public class Actor {
 			System.out.println("MOTION!");
 			Move m = Chess.bDriver.makeMove();
 			if (m != null) {
+				System.out.println(m.atX+" "+m.atY);
+				System.out.println(m.toX+" "+m.toY);
 				select(m.atX,m.atY);
 				act(m.toX,m.toY);
 			}

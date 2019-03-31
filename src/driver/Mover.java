@@ -21,27 +21,36 @@ public class Mover {
 		y = b;
 		tactic = tacs.get(s);
 	}
-	
+
+	public void setX(int x) {this.x = x;}
+
+	public void setY(int y) {this.y = y;}
+
 	public ArrayList<Move> getMoves(Tile[][] board) {
 		
 		Couples cS = tactic.allM(x, y, board);
 		ArrayList<Move> toReturn = new ArrayList<>();
 		
+		System.out.println("Searching for moves:");
+		
 		for (Couple c : cS) {
 			if (c.a > 0 && c.b > 0 &&
-					c.a < board.length && c.b < board.length) {
+					c.a < board.length && c.b < board.length &&
+					!(c.a == x && c.b == y)) {
 				Tile t = board[c.a][c.b];
-				Tile m = board[x][y];
 				
 				if (t.getPiece() != null) {
 					Piece oPiece = t.getPiece();
 					
 					//Different color, add move with that bounty.
 					//if (oPiece.color != m.getPiece().color)
-						toReturn.add(new Move(x,y,c.a,c.b,oPiece.bounty()));
+					System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,oPiece.bounty());
+					toReturn.add(new Move(x,y,c.a,c.b,oPiece.bounty()));
 				}
-				else
+				else {
 					toReturn.add(new Move(x,y,c.a,c.b,0));
+					System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,0);
+				}
 			}
 		}
 		return toReturn;
@@ -53,46 +62,48 @@ public class Mover {
 		tacs = new HashMap<>();
 		
 		tacs.put(PAWN,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
 				return toReturn;
 			}
 		});
 		
 		tacs.put(KING,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
-				for (int i=x-1;i<x+1;i++)
-					for (int j=x-1;j<x+1;j++)
+				Couples toReturn = new Couples();
+				for (int i=x-1;i<=x+1;i++)
+					for (int j=y-1;j<=y+1;j++) {
 						toReturn.add(i, j);
+						System.out.println(i+" "+j);
+					}
 				return toReturn;
 			}
 		});
 		
 		tacs.put(QUEEN,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
 				return toReturn;
 			}
 		});
 		
 		tacs.put(ROOK,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
 				return toReturn;
 			}
 		});
 		
 		tacs.put(BISHOP,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
 				return toReturn;
 			}
 		});
 		
 		tacs.put(HORSE,new Tactic() {
-			Couples toReturn = new Couples();
 			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
 				return toReturn;
 			}
 		});

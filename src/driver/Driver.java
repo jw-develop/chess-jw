@@ -18,19 +18,23 @@ public class Driver {
 	public Driver(Tile[][] board,Team color) {
 		this.board = board;
 		
-		
 		this.color = Team.BLACK;
-		
 		
 		pieces = collectMovers();
 	}
 	
 	public Move makeMove() {
 		Move highestBounty = null;
-		for (Mover mover : pieces)
+		
+		for (Mover mover : pieces) {
 			for (Move m : mover.getMoves(board))
-				if (highestBounty == null || highestBounty.bounty < m.bounty)
+				if (highestBounty == null || m.bounty > highestBounty.bounty)
 					highestBounty = m;
+		}
+		
+		pieces.get(0).setX(highestBounty.toX);
+		pieces.get(0).setY(highestBounty.toY);
+
 		return highestBounty;
 	}
 	
