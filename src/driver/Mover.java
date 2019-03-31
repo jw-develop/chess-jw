@@ -38,19 +38,19 @@ public class Mover {
 					c.a < board.length && c.b < board.length &&
 					!(c.a == x && c.b == y)) {
 				Tile t = board[c.a][c.b];
+				Tile m = board[x][y];
+				int bounty = 0;
 				
-				if (t.getPiece() != null) {
+				if (t.getPiece() != null && m.getPiece() != null) {
 					Piece oPiece = t.getPiece();
-					
+
 					//Different color, add move with that bounty.
-					//if (oPiece.color != m.getPiece().color)
-					System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,oPiece.bounty());
-					toReturn.add(new Move(x,y,c.a,c.b,oPiece.bounty()));
+					if (oPiece.color != m.getPiece().color)
+						bounty = oPiece.bounty();
 				}
-				else {
-					toReturn.add(new Move(x,y,c.a,c.b,0));
-					System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,0);
-				}
+
+				toReturn.add(new Move(x,y,c.a,c.b,bounty));
+				System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,bounty);
 			}
 		}
 		return toReturn;
@@ -72,31 +72,58 @@ public class Mover {
 			public Couples allM(int x, int y, Tile[][] board) {
 				Couples toReturn = new Couples();
 				for (int i=x-1;i<=x+1;i++)
-					for (int j=y-1;j<=y+1;j++) {
-						toReturn.add(i, j);
-						System.out.println(i+" "+j);
-					}
+					for (int j=y-1;j<=y+1;j++)
+						toReturn.add(i,j);
 				return toReturn;
 			}
 		});
+		
+		Tactic rook = new Tactic() {
+			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
+				for (int i=x+1;i<8 && board[i][y] != null;i++)
+					toReturn.add(i,y);
+				for (int j=y+1;j<8 && board[x][j] != null;j++)
+					toReturn.add(x,j);
+				for (int i=x-1;i>=0 && board[i][y] != null;i--)
+					toReturn.add(i,y);
+				for (int j=y-1;j>=0 && board[x][j] != null;j--)
+					toReturn.add(x,j);
+				return toReturn;
+			}
+		};
+		
+		Tactic bishop = new Tactic() {
+			public Couples allM(int x, int y, Tile[][] board) {
+				Couples toReturn = new Couples();
+				for (int i=x+1,j=y+1;
+						i<8 && j<8 && board[i][j] != null;
+						i++,j++)
+					toReturn.add(i,j);
+				for (int i=x+1,j=y-1;
+						i<8 && j>0 && board[i][j] != null;
+						i++,j--)
+					toReturn.add(i,j);
+				for (int i=x-1,j=y+1;
+						i>0 && j<8 && board[i][j] != null;
+						i--,j++)					
+					toReturn.add(i,j);
+				for (int i=x-1,j=y-1;
+						i>0 && j>0 && board[i][j] != null;
+						i--,j--)
+					toReturn.add(i,j);
+				return toReturn;
+			}
+		};
+		
+		tacs.put(ROOK,rook);
+		tacs.put(BISHOP,bishop);
 		
 		tacs.put(QUEEN,new Tactic() {
 			public Couples allM(int x, int y, Tile[][] board) {
-				Couples toReturn = new Couples();
-				return toReturn;
-			}
-		});
-		
-		tacs.put(ROOK,new Tactic() {
-			public Couples allM(int x, int y, Tile[][] board) {
-				Couples toReturn = new Couples();
-				return toReturn;
-			}
-		});
-		
-		tacs.put(BISHOP,new Tactic() {
-			public Couples allM(int x, int y, Tile[][] board) {
-				Couples toReturn = new Couples();
+				Couples toReturn = bishop.allM(x, y, board);
+				for (Couple c : rook.allM(x, y, board))
+					toReturn.add(c);
 				return toReturn;
 			}
 		});
@@ -104,6 +131,18 @@ public class Mover {
 		tacs.put(HORSE,new Tactic() {
 			public Couples allM(int x, int y, Tile[][] board) {
 				Couples toReturn = new Couples();
+				int[][] arr = {
+						{-2,-1},
+						{2,-1},
+						{-2,1},
+						{2,1}
+				};
+				
+				for (int[] a : arr)
+					toReturn.add(a[0],a[1]);
+				for (int[] a : arr)
+					toReturn.add(a[1],a[0]);
+				
 				return toReturn;
 			}
 		});
@@ -114,6 +153,10 @@ public class Mover {
 		
 		public void add(int a,int b) {
 			internal.add(new Couple(a,b));
+		}
+		
+		public void add(Couple c) {
+			internal.add(c);
 		}
 
 		public Iterator<Couple> iterator() {

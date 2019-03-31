@@ -34,18 +34,15 @@ public class Chess {
 		//for (int i = 0; i < 8;i++)
 		//	board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN));
 		
-		board[3][3].setPiece(new Piece(Team.WHITE,Soldier.KING));
-		board[5][5].setPiece(new Piece(Team.BLACK,Soldier.KING));
-		
-//		//Other pieces
-//		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
-//		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
-//		for (int i = 0; i < 4; i++) {
-//			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i]));
-//			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i]));
-//			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i]));
-//			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i]));
-//		}
+		//Other pieces
+		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
+		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
+		for (int i = 0; i < 4; i++) {
+			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i]));
+			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i]));
+			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i]));
+			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i]));
+		}
 	}
 
 	public Tile[][] getBoard() {

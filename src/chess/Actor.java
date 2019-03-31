@@ -183,14 +183,12 @@ public class Actor {
 	private void nextTeam() {
 		if (turn == Team.WHITE) {
 			turn = Team.BLACK;
-			System.out.println("MOTION!");
 			Move m = Chess.bDriver.makeMove();
 			if (m != null) {
-				System.out.println(m.atX+" "+m.atY);
-				System.out.println(m.toX+" "+m.toY);
 				select(m.atX,m.atY);
 				act(m.toX,m.toY);
 			}
+			else System.out.println("No move found");
 		}
 		else
 			turn = Team.WHITE;
