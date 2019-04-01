@@ -12,6 +12,7 @@ public class Tile extends JButton {
 	
 	public void setPiece(Piece p) {
 		this.piece = p;
+		
 		updateVis();
 	}
 	

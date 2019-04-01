@@ -9,7 +9,7 @@ public class Driver {
 	
 	Tile[][] board;
 	Team color;
-	ArrayList<Mover> pieces;
+	ArrayList<Piece> pieces;
 	
 	Soldier[] priority = {
 			QUEEN,ROOK,BISHOP,HORSE,PAWN,KING
@@ -17,37 +17,35 @@ public class Driver {
 	
 	public Driver(Tile[][] board,Team color) {
 		this.board = board;
-		
-		this.color = Team.BLACK;
-		
-		pieces = collectMovers();
+		this.color = color;
+		pieces = collectPieces();
 	}
 	
 	public Move makeMove() {
 		Move highestBounty = null;
-		Mover toMove = null;
+		Piece toMove = null;
 		
-		for (Mover mover : pieces)
-			for (Move m : mover.getMoves(board))
+		for (Piece piece : pieces)
+			for (Move m : piece.getMoves())
 				if (highestBounty == null || m.bounty > highestBounty.bounty) {
 					highestBounty = m;
-					toMove = mover;
+					toMove = piece;
 				}
 		
-		toMove.setX(highestBounty.toX);
-		toMove.setY(highestBounty.toY);
+		if (toMove != null) {
+			toMove.movePiece(highestBounty.toX, highestBounty.toY);
+		}
 
 		return highestBounty;
 	}
 	
-	private ArrayList<Mover> collectMovers() {
-		ArrayList<Mover> toReturn = new ArrayList<>(16);
+	private ArrayList<Piece> collectPieces() {
+		ArrayList<Piece> toReturn = new ArrayList<>(16);
 		for (int i = 0; i < 8; i++)
         	for (int j = 0; j < 8; j++) {
         		Piece p = board[i][j].getPiece();
         		if (p != null && p.color == color)
-        			toReturn.add(new Mover(i,j,
-        					board[i][j].getPiece().soldier));
+        			toReturn.add(p);
         	}
 		return toReturn;
 	}

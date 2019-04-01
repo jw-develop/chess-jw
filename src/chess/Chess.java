@@ -38,10 +38,10 @@ public class Chess {
 		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
 		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
 		for (int i = 0; i < 4; i++) {
-			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i]));
-			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i]));
-			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i]));
-			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i]));
+			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i],0,i));
+			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i],0,7-i));
+			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i],7,i));
+			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i],7,7-i));
 		}
 	}
 

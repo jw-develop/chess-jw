@@ -1,62 +1,28 @@
 package driver;
 
+import static chess.Soldier.BISHOP;
+import static chess.Soldier.HORSE;
+import static chess.Soldier.KING;
+import static chess.Soldier.PAWN;
+import static chess.Soldier.QUEEN;
+import static chess.Soldier.ROOK;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import chess.Piece;
+
 import chess.Soldier;
-import static chess.Soldier.*;
 import chess.Tile;
 
-public class Mover {
+public abstract class Tactic {
 	
-	static HashMap<Soldier,Tactic> tacs;
-	
-	private int x;
-	private int y;
-	private Tactic tactic;
-	
-	public Mover(int a,int b,Soldier s) {
-		x = a;
-		y = b;
-		tactic = tacs.get(s);
+	public abstract Couples allM(int x,int y,Tile[][] board);
+
+	public static Tactic getTactic(Soldier s) {
+		return tacs.get(s);
 	}
 
-	public void setX(int x) {this.x = x;}
-
-	public void setY(int y) {this.y = y;}
-
-	public ArrayList<Move> getMoves(Tile[][] board) {
-		
-		Couples cS = tactic.allM(x, y, board);
-		ArrayList<Move> toReturn = new ArrayList<>();
-		
-		System.out.println("Searching for moves:");
-		
-		for (Couple c : cS) {
-			if (c.a > 0 && c.b > 0 &&
-					c.a < board.length && c.b < board.length &&
-					!(c.a == x && c.b == y)) {
-				Tile t = board[c.a][c.b];
-				Tile m = board[x][y];
-				int bounty = 0;
-				
-				if (t.getPiece() != null && m.getPiece() != null) {
-					Piece oPiece = t.getPiece();
-
-					//Different color, add move with that bounty.
-					if (oPiece.color != m.getPiece().color)
-						bounty = oPiece.bounty();
-				}
-
-				toReturn.add(new Move(x,y,c.a,c.b,bounty));
-				System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,bounty);
-			}
-		}
-		return toReturn;
-	}
-	
-	private static interface Tactic {Couples allM(int x,int y,Tile[][] board);}
+	private static HashMap<Soldier,Tactic> tacs;
 	
 	static {
 		tacs = new HashMap<>();
@@ -64,6 +30,7 @@ public class Mover {
 		tacs.put(PAWN,new Tactic() {
 			public Couples allM(int x, int y, Tile[][] board) {
 				Couples toReturn = new Couples();
+				
 				return toReturn;
 			}
 		});
@@ -148,15 +115,18 @@ public class Mover {
 		});
 	}
 	
-	private static class Couples implements Iterable<Couple> {
+	public static class Couples implements Iterable<Couple> {
 		private ArrayList<Couple> internal = new ArrayList<>();
 		
 		public void add(int a,int b) {
-			internal.add(new Couple(a,b));
+			if (a > 0 && a < 8 && b > 0 && b < 8)
+				internal.add(new Couple(a,b));
 		}
 		
 		public void add(Couple c) {
-			internal.add(c);
+			int a = c.a, b = c.b;
+			if (a > 0 && a < 8 && b > 0 && b < 8)
+				internal.add(c);
 		}
 
 		public Iterator<Couple> iterator() {
@@ -173,7 +143,7 @@ public class Mover {
 		}
 	}
 	
-	private static class Couple {
+	public static class Couple {
 		public final int a;
 		public final int b;
 		public Couple(int a, int b) {

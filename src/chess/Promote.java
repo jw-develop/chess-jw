@@ -48,7 +48,7 @@ public class Promote {
 		if (b == 4)
 			k += 1;
 		
-		board[i][j].setPiece(new Piece(team,options[k]));
+		board[i][j].setPiece(new Piece(team,options[k],i,j));
 		populate(temp);
 		promoting = false;
 	}
@@ -59,7 +59,7 @@ public class Promote {
 	}
 	private void populate(Team team,Soldier[] arr) {
 		for (int a = 0; a < 4; a++)
-			boardArray[a].setPiece(new Piece(team,arr[a]));
+			boardArray[a].setPiece(new Piece(team,arr[a],3+a/2,3+a%2));
 	}
 	
 	public static Promote getInstance() {
