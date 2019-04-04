@@ -25,13 +25,16 @@ public class Driver {
 		Move highestBounty = null;
 		Piece toMove = null;
 		
-		for (Piece piece : pieces)
-			for (Move m : piece.getMoves())
+		for (Piece piece : pieces) {
+			piece.updateMoves(board);
+			for (Move m : piece.getMoves()) {
 				if (highestBounty == null || m.bounty > highestBounty.bounty) {
 					highestBounty = m;
 					toMove = piece;
 				}
-		
+			}
+		}
+				
 		if (toMove != null) {
 			toMove.movePiece(highestBounty.toX, highestBounty.toY);
 		}

@@ -31,7 +31,9 @@ public class Piece {
 		set = new HashSet<Couple>();
 	}
 	
-	public List<Move> getMoves() {return moves;}
+	public List<Move> getMoves() {
+		return moves;
+	}
 	
 	public boolean hasMove(int x,int y) {
 		for (Couple c : set)
@@ -55,8 +57,6 @@ public class Piece {
 		
 		for (Couple c : cS) {
 			
-			// Sanity check:
-			// Not same square as piece.
 			if (!(c.a == x && c.b == y)) {
 				Tile t = board[c.a][c.b];
 				Tile m = board[x][y];
@@ -76,7 +76,7 @@ public class Piece {
 
 				moves.add(new Move(x,y,c.a,c.b,bounty));
 				set.add(new Couple(c.a,c.b));
-				System.out.printf("\nMove added: %s,%s,%s,%s,%s",x,y,c.a,c.b,bounty);
+				//System.out.printf("Move added: %s,%s,%s,%s,%s\n",x,y,c.a,c.b,bounty);
 			}
 		}
 	}
@@ -96,16 +96,16 @@ public class Piece {
 	public String toString() {
 		String toReturn = "";
 		switch (this.color) {
-			case WHITE: toReturn += "W";
-			case BLACK: toReturn += "B";
+			case WHITE: toReturn += "W"; break;
+			case BLACK: toReturn += "B"; break;
 		}
 		switch (this.soldier) {
-			case BISHOP: toReturn += "B";
-			case HORSE: toReturn += "H";
-			case KING: toReturn += "K";
-			case PAWN: toReturn += "P";
-			case QUEEN: toReturn += "Q";
-			case ROOK: toReturn += "R";
+			case BISHOP: toReturn += "B"; break;
+			case HORSE: toReturn += "H"; break;
+			case KING: toReturn += "K"; break;
+			case PAWN: toReturn += "P"; break;
+			case QUEEN: toReturn += "Q"; break;
+			case ROOK: toReturn += "R"; break;
 		}
 		return toReturn;
 	}

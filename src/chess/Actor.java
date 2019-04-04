@@ -12,10 +12,6 @@ public class Actor {
 	private Tile selectedTile;
 	private Color selTileColor;
 	
-	//Selected tile coordinates.
-	private int x;
-	private int y;
-	
 	public Actor(Tile[][] board) {
 		this.board = board;
 		selectedTile = null;
@@ -28,10 +24,8 @@ public class Actor {
 		selTileColor = selectedTile.getBackground();
 		selectedTile.setBackground(Color.blue);
 		
-		selectedTile.getPiece().updateMoves(board);
-		
-		x = i;
-		y = j;
+		if (selectedTile.getPiece() != null)
+			selectedTile.getPiece().updateMoves(board);
 	}
 	
 	public void act(int i,int j) {
@@ -60,7 +54,6 @@ public class Actor {
 		else if (selectedTile != null) {
 
 			//If compatible, then set the piece at the new place.
-			System.out.println(selectedTile.getPiece().hasMove(i,j));
 			if (selectedTile.getPiece().hasMove(i, j)) {
 				
 				clicked.setPiece(selectedTile.getPiece());
@@ -90,10 +83,14 @@ public class Actor {
 			turn = Team.BLACK;
 			Move m = Chess.bDriver.makeMove();
 			if (m != null) {
+				System.out.println("MOVED!");
 				select(m.atX,m.atY);
+				System.out.println(m.atX+" "+m.atY);
 				act(m.toX,m.toY);
+				System.out.println(m.toX+" "+m.toY);
 			}
-			else System.out.println("No move found");
+			else 
+				System.out.println("No move found");
 		}
 		else
 			turn = Team.WHITE;
