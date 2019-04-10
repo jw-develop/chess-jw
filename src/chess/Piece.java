@@ -35,7 +35,8 @@ public class Piece {
 		return moves;
 	}
 	
-	public boolean hasMove(int x,int y) {
+	public boolean hasMove(int x,int y,Tile[][] board) {
+		updateMoves(board);
 		for (Couple c : set)
 			if (c.a == x && c.b == y)
 				return true;

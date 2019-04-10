@@ -19,15 +19,14 @@ public class Actor {
 	}
 	
 	private void select(int i, int j) {
-		
-		selectedTile = board[i][j];
-		selTileColor = selectedTile.getBackground();
-		selectedTile.setBackground(Color.blue);
-		
-		if (selectedTile.getPiece() != null)
+		if (selectedTile.getPiece() != null) {
+			selectedTile = board[i][j];
+			selTileColor = selectedTile.getBackground();
+			selectedTile.setBackground(Color.blue);
 			selectedTile.getPiece().updateMoves(board);
+		}
 	}
-	
+
 	public void act(int i,int j) {
 		
 		Tile clicked = board[i][j];
@@ -54,7 +53,7 @@ public class Actor {
 		else if (selectedTile != null) {
 
 			//If compatible, then set the piece at the new place.
-			if (selectedTile.getPiece().hasMove(i, j)) {
+			if (selectedTile.getPiece().hasMove(i,j,board)) {
 				
 				clicked.setPiece(selectedTile.getPiece());
 				selectedTile.setPiece(null);

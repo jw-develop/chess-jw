@@ -7,7 +7,6 @@ public class Chess {
 	private Tile[][] board;
 	private Actor actor;
 	public static Driver bDriver;
-	@SuppressWarnings("unused")
 	private boolean over;
 	
 	public Chess() {
@@ -18,7 +17,9 @@ public class Chess {
 	}
 	
 	public void play() {
-
+		
+		if (over == true)
+			;
 	}
 	
 	private void genNormalBoard() {
