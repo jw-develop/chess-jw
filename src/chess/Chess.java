@@ -29,24 +29,25 @@ public class Chess {
         	for (int j = 0; j < 8; j++)
         		 board[i][j] = new Tile();
 		
-		//Pawns
-		//for (int i = 0; i < 8;i++)
-		//	board[1][i].setPiece(new Piece(Team.WHITE,Soldier.PAWN));
-		//for (int i = 0; i < 8;i++)
-		//	board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN));
+//		Pawns
+		for (int i = 0; i < 8;i++)
+			board[1][i].setPiece(new Piece(Team.WHITE,Soldier.PAWN,1,i));
+		for (int i = 0; i < 8;i++)
+			board[6][i].setPiece(new Piece(Team.BLACK,Soldier.PAWN,6,i));
 		
-		board[3][3].setPiece(new Piece(Team.WHITE,Soldier.KING,3,3));
-		board[4][4].setPiece(new Piece(Team.BLACK,Soldier.KING,4,4));
+		// Just kings - debugging
+//		board[3][3].setPiece(new Piece(Team.WHITE,Soldier.KING,3,3));
+//		board[4][4].setPiece(new Piece(Team.BLACK,Soldier.KING,4,4));
 		
-//		//Other pieces
-//		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
-//		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
-//		for (int i = 0; i < 4; i++) {
-//			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i],0,i));
-//			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i],0,7-i));
-//			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i],7,i));
-//			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i],7,7-i));
-//		}
+		//Other pieces
+		Soldier[] kingside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.KING};
+		Soldier[] queenside = {Soldier.ROOK,Soldier.HORSE,Soldier.BISHOP,Soldier.QUEEN};
+		for (int i = 0; i < 4; i++) {
+			board[0][i].setPiece(new Piece(Team.WHITE,kingside[i],0,i));
+			board[0][7-i].setPiece(new Piece(Team.WHITE,queenside[i],0,7-i));
+			board[7][i].setPiece(new Piece(Team.BLACK,kingside[i],7,i));
+			board[7][7-i].setPiece(new Piece(Team.BLACK,queenside[i],7,7-i));
+		}
 	}
 
 	public Tile[][] getBoard() {

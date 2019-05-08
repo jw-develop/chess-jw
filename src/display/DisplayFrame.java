@@ -38,6 +38,10 @@ public class DisplayFrame extends JFrame {
 	    Clock clock = new Clock(5);
 	    getContentPane().add(clock,BorderLayout.CENTER);
 	    
+	    //Add another clock
+	    Clock clock2 = new Clock(5);
+	    getContentPane().add(clock2,BorderLayout.CENTER);
+	    
 	    //Add the history panel.
 	    getContentPane().add(History.getInstance(),BorderLayout.EAST);
 	    
